@@ -35,13 +35,12 @@ def get_point_triangle(d, x1, m, b):        #Funktion die den Startpunkt zur Ers
 #-------------------------------------------------------------------------------------------------------
 
 #-------Points-------------------
-Head = Point(1,1)               #Test Punkte
-#Beak = Point(-2,-3)               # "
-Beak = Point(2,3)
-RF = Point(4,7)
+Head = Point(801.22705078125,428.33880615234375)               #Test Punkte
+Beak = Point(825.8939208984375,452.4085083007813)
+RF = Point(200,200)
 
 #------Distance_toter_Winkel-----
-T = 20                          #Entfernung, in dem das Dreieck gebildet wird
+T = 1000                          #Entfernung, in dem das Dreieck gebildet wird
 
 HB = LineString([(Head.x, Head.y), (Beak.x, Beak.y)])       #Verbindung zwischen Head und Beak
 
@@ -114,8 +113,8 @@ plot_polygon(triangle, color="y")
 plot_line(HB)
 plot_points(RF)
 
-plt.show()
+print(triangle.contains(RF))
 
-#tesssst
+plt.show()
 
 ###################################################

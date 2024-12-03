@@ -1,7 +1,10 @@
 from shapely.geometry import Polygon, Point, LineString                 #Erstellung der verschiedenen geometrischen Körper
 import math                                                             #Berechnung von Wurzeln/Sinus etc.
 import pandas as pd
+import time
 
+# Save timestamp
+start = time.time()
 #----------------------------------------------------------------------
 #ONLY PROBLEM: The Code will not Work, if the Coordinates of Head and Beak are identical
 #Die Warscheinlichkeit dafür ist wegen der hohen Anzahl an Nachkommastellen aber so klein, das das vorerst 
@@ -33,16 +36,16 @@ def get_point_triangle(d, x1, m, b):        #Funktion die den Startpunkt zur Ers
 
 #-------------------------------------------------------------------------------------------------------
 
-csv_input = pd.read_csv('test.csv')
+csv_input = pd.read_csv('copy_big.csv')
 csv_input['RF_visible'] = "0"
 
 for i in range(len(csv_input)):
     RF = Point((csv_input["RF_x"][i]), (csv_input["RF_y"][i]))
-    Head = Point((csv_input["head_x"][i]), (csv_input["head_y"][i]))
-    Beak = Point((csv_input["beak_x"][i]), (csv_input["beak_y"][i]))
+    Head = Point((csv_input["head_center_x"][i]), (csv_input["head_center_y"][i]))
+    Beak = Point((csv_input["beak_tip_x"][i]), (csv_input["beak_tip_y"][i]))
 
     #------Distance_toter_Winkel-----
-    T = 20                          #Entfernung, in dem das Dreieck gebildet wird
+    T = 1000                          #Entfernung, in dem das Dreieck gebildet wird
 
     HB = LineString([(Head.x, Head.y), (Beak.x, Beak.y)])       #Verbindung zwischen Head und Beak
 
@@ -113,10 +116,14 @@ for i in range(len(csv_input)):
         # if triangle.contains(RF) -> n, sonst -> y
     
     if triangle.contains(RF):
-        csv_input.loc[i, "RF_visible"] = "y"
-    else:
         csv_input.loc[i, "RF_visible"] = "n"
+    else:
+        csv_input.loc[i, "RF_visible"] = "y"
 
 
     
 csv_input.to_csv('out.csv', index=False)
+
+end = time.time()
+
+print(end - start)
